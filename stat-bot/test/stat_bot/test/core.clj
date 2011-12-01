@@ -6,10 +6,10 @@
   (is(not(empty? (search "clojure")))))
   
 (deftest extract-tags-from-string
-  (is(= '("#a" "#b")) (extract-tags "#a was her #b")))
+  (is(= '("#a" "#b")) (extract-tokens "#" "#a was her #b")))
   
 (deftest extract-tags-from-stream
-  (is(= '("#a" "#b" "#c" "#b") (extract-tags-stream ["#a was her #b" "and #c" "#b again"]))))
+  (is(= '("#a" "#b" "#c" "#b") (extract-token-stream "#" ["#a was her #b" "and #c" "#b again"]))))
 
 (deftest analysis-test
   (binding [get-tweets (constantly [{:content "#a was her #b"} {:content "and #c"} {:content "#b again"}])] 

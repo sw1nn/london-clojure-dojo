@@ -15,11 +15,17 @@
        (str "@"
         (first (re-split #"\s+" (get-text-for-tag entry :name))))
        })
-    (filter #(= :entry (:tag %)) (xml-seq (clojure.xml/parse (str "http://search.twitter.com/search.atom?itemPerPage=1&q=" s))))))
+    (filter #(= :entry (:tag %))
+            (xml-seq (clojure.xml/parse
+                      (str "http://search.twitter.com/search.atom?itemPerPage=1000&q=" s))))))
 
 (defn search [s]
-   (rest (map (comp first :content ) (filter #(= :title (:tag %)) (xml-seq (clojure.xml/parse (str "http://search.twitter.com/search.atom?&q=" s)))))))
-   
+  (rest (map (comp first :content )
+             (filter #(= :title (:tag %))
+                     (xml-seq
+                      (clojure.xml/parse
+                       (str "http://search.twitter.com/search.atom?&q=" s)))))))
+
 (defn extract-tokens [token s]
   (map #(.toLowerCase %1) (filter #(.startsWith % token)(re-split #"[\s:'\?]+" s))))
 
